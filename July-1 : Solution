@@ -1,0 +1,29 @@
+Substrings of length k with k-1 distinct elements
+Solution:
+from collections import defaultdict
+
+class Solution:
+    def substrCount(self, s, k):
+        if k > len(s):
+            return 0
+
+        freq = defaultdict(int)
+        count = 0
+        left = 0
+
+        for right in range(len(s)):
+            freq[s[right]] += 1
+
+            # Shrink the window if it exceeds size k
+            if right - left + 1 > k:
+                freq[s[left]] -= 1
+                if freq[s[left]] == 0:
+                    del freq[s[left]]
+                left += 1
+
+            # When window size is exactly k, check condition
+            if right - left + 1 == k:
+                if len(freq) == k - 1:
+                    count += 1
+
+        return count
