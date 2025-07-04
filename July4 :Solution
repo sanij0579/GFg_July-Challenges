@@ -1,0 +1,31 @@
+Subarrays With At Most K Distinct Integer
+solution:
+from collections import defaultdict
+
+class Solution:
+    def countAtMostK(self, arr, k):
+        if k == 0:
+            return 0
+        
+        count = 0
+        freq = defaultdict(int)
+        left = 0
+
+        for right in range(len(arr)):
+            # include arr[right] in the window
+            if freq[arr[right]] == 0:
+                k -= 1
+            freq[arr[right]] += 1
+
+            # shrink the window until we have at most k distinct
+            while k < 0:
+                freq[arr[left]] -= 1
+                if freq[arr[left]] == 0:
+                    k += 1
+                left += 1
+
+            # count all subarrays ending at right
+            count += right - left + 1
+
+        return count
+        
