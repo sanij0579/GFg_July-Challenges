@@ -1,0 +1,11 @@
+Max Score from Subarray Mins
+Solution:
+class Solution:
+    def maxSum(self, arr):
+        n = len(arr)
+        max_score = 0
+        for i in range(n - 1):
+            # Check every adjacent pair
+            score = arr[i] + arr[i + 1]
+            max_score = max(max_score, score)
+        return max_score
