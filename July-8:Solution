@@ -1,0 +1,28 @@
+Next element with greater frequency
+Solution:
+from collections import Counter
+
+class Solution:
+    def findGreater(self, arr):
+        n = len(arr)
+        res = [-1] * n
+        
+        # Step 1: Count frequency of all elements
+        freq = Counter(arr)
+
+        # Step 2: Monotonic stack from right to left
+        stack = []  # Will store indexes
+
+        for i in range(n - 1, -1, -1):
+            # Pop elements from stack with freq <= current's freq
+            while stack and freq[arr[stack[-1]]] <= freq[arr[i]]:
+                stack.pop()
+            
+            if stack:
+                res[i] = arr[stack[-1]]
+            else:
+                res[i] = -1
+            
+            stack.append(i)
+
+        return res
