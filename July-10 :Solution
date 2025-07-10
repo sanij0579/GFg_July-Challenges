@@ -1,0 +1,19 @@
+Find the longest string:
+class Solution():
+    def longestString(self, arr):
+        arr.sort()  # Lexicographical sort
+        word_set = set(arr)
+        ans = ""
+
+        for word in arr:
+            is_valid = True
+            # Check if all prefixes of word exist in the set
+            for i in range(1, len(word)):
+                if word[:i] not in word_set:
+                    is_valid = False
+                    break
+            if is_valid:
+                # Check if it's longer, or same length but lexicographically smaller
+                if len(word) > len(ans) or (len(word) == len(ans) and word < ans):
+                    ans = word
+        return ans
