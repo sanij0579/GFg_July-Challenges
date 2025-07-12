@@ -1,0 +1,30 @@
+Gold Mine Problem
+Solution:
+class Solution:
+    def maxGold(self, mat):
+        if not mat or not mat[0]:
+            return 0
+
+        n = len(mat)
+        m = len(mat[0])
+
+        # Only store current and next column values
+        dp = [0] * n
+
+        # Initialize dp with the last column values
+        for i in range(n):
+            dp[i] = mat[i][m - 1]
+
+        # Traverse from second last column to first
+        for col in range(m - 2, -1, -1):
+            new_dp = [0] * n
+            for row in range(n):
+                right = dp[row]
+                right_up = dp[row - 1] if row > 0 else 0
+                right_down = dp[row + 1] if row < n - 1 else 0
+
+                new_dp[row] = mat[row][col] + max(right, right_up, right_down)
+
+            dp = new_dp  # Update dp for next iteration
+
+        return max(dp)
