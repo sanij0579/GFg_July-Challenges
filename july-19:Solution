@@ -1,0 +1,27 @@
+Count Unique Vowel Strings
+Soution:
+from math import factorial
+from functools import reduce
+from collections import Counter
+
+class Solution:
+    def vowelCount(self, s):
+        vowels = {'a', 'e', 'i', 'o', 'u'}
+        counter = Counter(s)
+        
+        # Filter to keep only vowels and their counts
+        vowel_counts = {ch: counter[ch] for ch in vowels if ch in counter}
+        
+        # No vowel → No valid string
+        if not vowel_counts:
+            return 0
+        
+        # Multiply count of choices (for each vowel, one of its occurrence)
+        total_ways_to_choose = 1
+        for count in vowel_counts.values():
+            total_ways_to_choose *= count
+        
+        # Multiply with permutation of chosen vowels
+        permutations = factorial(len(vowel_counts))
+        
+        return total_ways_to_choose * permutations
