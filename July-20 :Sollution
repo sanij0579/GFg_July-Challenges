@@ -1,0 +1,28 @@
+
+Count Numbers Containing Specific Digits
+Solution:
+class Solution:
+    def countValid(self, n, arr):
+        from itertools import product
+
+        arr_set = set(arr)
+        all_digits = set(range(10))
+        allowed_digits = list(all_digits - arr_set)
+        
+        if not allowed_digits:
+            return 9 * (10 ** (n - 1))  # All digits are allowed, so all n-digit numbers are valid
+
+        total = 9 * (10 ** (n - 1))  # Total n-digit numbers
+        
+        # Count numbers with NO digit from arr (i.e. only from allowed_digits)
+        if not allowed_digits:
+            return 0
+
+        valid = 0
+        for i, d in enumerate(allowed_digits):
+            if d == 0:
+                continue  # Skip 0 as leading digit
+            # First digit is d
+            valid += len(allowed_digits) ** (n - 1)
+
+        return total - valid
