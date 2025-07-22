@@ -1,0 +1,21 @@
+Smallest Positive Missing
+Solution:
+class Solution:
+    def missingNumber(self, arr):
+        n = len(arr)
+
+        # Step 1: Place each number at its correct index if possible
+        i = 0
+        while i < n:
+            correctIndex = arr[i] - 1
+            if 1 <= arr[i] <= n and arr[i] != arr[correctIndex]:
+                arr[i], arr[correctIndex] = arr[correctIndex], arr[i]
+            else:
+                i += 1
+
+        # Step 2: Find the first index where arr[i] != i + 1
+        for i in range(n):
+            if arr[i] != i + 1:
+                return i + 1
+
+        return n + 1
