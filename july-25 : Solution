@@ -1,0 +1,28 @@
+Max Circular Subarray Sum
+Solution:
+class Solution:
+    def maxCircularSum(self, arr):
+        def kadane(nums):
+            max_ending_here = max_so_far = nums[0]
+            for num in nums[1:]:
+                max_ending_here = max(num, max_ending_here + num)
+                max_so_far = max(max_so_far, max_ending_here)
+            return max_so_far
+        
+        def min_kadane(nums):
+            min_ending_here = min_so_far = nums[0]
+            for num in nums[1:]:
+                min_ending_here = min(num, min_ending_here + num)
+                min_so_far = min(min_so_far, min_ending_here)
+            return min_so_far
+
+        total_sum = sum(arr)
+        max_kadane = kadane(arr)
+        min_kadane_sum = min_kadane(arr)
+
+        if max_kadane < 0:
+            # All numbers are negative
+            return max_kadane
+        
+        # Max of non-wrapping and wrapping case
+        return max(max_kadane, total_sum - min_kadane_sum)
