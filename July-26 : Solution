@@ -1,0 +1,32 @@
+Majority Element - More Than n/3
+Solution:
+class Solution:
+    def findMajority(self, arr):
+        n = len(arr)
+        if n == 0:
+            return []
+        
+        # Step 1: Find candidates
+        cand1 = cand2 = None
+        count1 = count2 = 0
+        
+        for num in arr:
+            if num == cand1:
+                count1 += 1
+            elif num == cand2:
+                count2 += 1
+            elif count1 == 0:
+                cand1, count1 = num, 1
+            elif count2 == 0:
+                cand2, count2 = num, 1
+            else:
+                count1 -= 1
+                count2 -= 1
+        
+        # Step 2: Verify candidates
+        result = []
+        for candidate in (cand1, cand2):
+            if candidate is not None and arr.count(candidate) > n // 3:
+                result.append(candidate)
+        
+        return sorted(result)
