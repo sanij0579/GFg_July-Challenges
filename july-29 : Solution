@@ -1,0 +1,29 @@
+ASCII Range Sum
+Solution:
+class Solution:
+    def asciirange(self, s):
+        n = len(s)
+        first_idx = {}
+        last_idx = {}
+
+        # Store first and last occurrence
+        for i, ch in enumerate(s):
+            if ch not in first_idx:
+                first_idx[ch] = i
+            last_idx[ch] = i
+
+        # Prefix sum of ASCII values
+        prefix = [0] * (n + 1)
+        for i in range(n):
+            prefix[i+1] = prefix[i] + ord(s[i])
+
+        res = []
+        for ch in first_idx:
+            f, l = first_idx[ch], last_idx[ch]
+            if f < l:
+                # Sum of ASCII between first and last
+                total = prefix[l] - prefix[f+1]
+                if total > 0:
+                    res.append(total)
+
+        return res
