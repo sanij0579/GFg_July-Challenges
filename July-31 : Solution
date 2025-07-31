@@ -1,0 +1,30 @@
+Powerful Integer
+Solution:
+class Solution:
+    def powerfulInteger(self, intervals, k):
+        from collections import defaultdict
+        
+        events = defaultdict(int)
+        for l, r in intervals:
+            events[l] += 1
+            events[r + 1] -= 1   # r+1 because range is inclusive
+        
+        count = 0
+        ans = -1
+        sorted_keys = sorted(events.keys())
+        
+        for i in range(len(sorted_keys)):
+            x = sorted_keys[i]
+            count += events[x]
+            
+            # Find next key to know range end
+            next_x = sorted_keys[i + 1] if i + 1 < len(sorted_keys) else None
+            
+            if count >= k:
+                # Powerful range is [x, next_x-1]
+                if next_x is None:
+                    ans = x
+                else:
+                    ans = next_x - 1  # end of range
+        
+        return ans
